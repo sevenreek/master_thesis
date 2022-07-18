@@ -1,0 +1,55 @@
+% !TeX root = main.tex
+% !TEX program = lualatex
+
+\documentclass[11pt,a4paper]{article}	
+
+\input{./includes/declarations.tex}
+\input{./bib/bib.tex}
+\onehalfspacing
+\setlength{\parskip}{\baselineskip}%
+\setlength{\parindent}{0pt}%
+%============================================================================%
+%	BEGIN DOCUMENT
+%============================================================================%
+\begin{document}
+\selectlanguage{polish}
+% print title
+\input{./includes/title.tex}
+\newpage
+\selectlanguage{english}
+
+\tableofcontents
+\newpage
+
+\selectlanguage{polish}
+\begin{abstract}
+\input{./includes/abstract_en.tex}
+\end{abstract}
+\newpage
+
+\selectlanguage{english}
+\begin{abstract}
+\input{./includes/abstract_pl.tex}
+\end{abstract}
+\newpage
+
+\input{./includes/chapter1_introduction.tex}
+\newpage
+\input{./includes/chapter2_hard_xray_spectroscopy.tex}
+\newpage
+\input{./includes/chapter3_system_requirements.tex}
+\newpage
+\input{./includes/chapter4_research_setup.tex}
+\newpage
+\input{./includes/chapter5_pulse_detection.tex}
+\newpage
+\input{./includes/chapter6_pulse_analysis.tex}
+\newpage
+\input{./includes/chapter7_data_transfer.tex}
+\newpage
+\input{./includes/chapter8_conclusions.tex}
+\newpage
+%	BIBLIOGRAPHY
+\printbibliography
+
+\end{document}
