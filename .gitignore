@@ -8,6 +8,9 @@
 *.lof
 *.lot
 *.fdb_latexmk
+*.fls
+*.ilg
+*.xdy
 
 
 # bibliography related
