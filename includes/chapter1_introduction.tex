@@ -103,14 +103,21 @@
 
   Just like it is possible to split atoms, it is also possible to
   combine them together in a process referred to as fusion. 
-  Fusing atoms lighter than Iron is a
-  reaction that can produce surplus energy.
+  Fusing atoms lighter than Iron is a reaction that 
+  can produce surplus energy as highlighted by \autoref{fig:binding_energy}.
+  Two atoms of low binding energy can fuse into an atom of higher 
+  binding energy, releasing heat based on the mass-energy equivalence formula.
   The output energy can be used to generate electricity in
   the exact same manner as with fission. 
   The problem with fusion reactors is that the conditions necessary
   for fusion to happen are extremely harder to achieve and sustain 
   \cite{structural_materials_fusion}.
-
+	\begin{figure}[h]
+	  \centering
+	  \includegraphics[width=.85\linewidth]{media/binding_energy.png}
+	  \caption{Average binding energy per nucleon as a function of the number of nucleons in the atom}
+	  \label{fig:binding_energy}
+	\end{figure}
 
   Fusion is the primary reaction that causes stars to emit light and heat.
   The reaction that is most often artificially attempted on Earth differs
@@ -155,27 +162,27 @@
   the International Thermonuclear Experimental Reactor (ITER)
   \cite{nuclear_fusion_status}.
 
-  \begin{figure}
-  \centering
-  \begin{minipage}{.5\textwidth}
-	\centering
-	\includegraphics[width=.5\linewidth]{media/iter_reactor_3d.jpeg}
-	\caption{ITER tokamak model\cite{iter_website}}
-	\label{fig:iter_reactor}
-  \end{minipage}%
-  \begin{minipage}{.5\textwidth}
-	\centering
-	\includegraphics[width=.5\linewidth]{media/w7x_3d.png}
-	\caption{Wendelstein W7X sterellator model\cite{w7x_website}}
-	\label{fig:w7x_reactor}
-  \end{minipage}
+  \begin{figure}[h]
+    \centering
+    \begin{minipage}{.5\textwidth}
+      \centering
+      \includegraphics[width=.5\linewidth]{media/iter_reactor_3d.jpeg}
+      \caption{ITER tokamak model\cite{iter_website}}
+      \label{fig:iter_reactor}
+    \end{minipage}%
+    \begin{minipage}{.6\textwidth}
+      \centering
+      \includegraphics[width=.5\linewidth]{media/w7x_3d.png}
+      \caption{Wendelstein W7X sterellator model\cite{w7x_website}}
+      \label{fig:w7x_reactor}
+    \end{minipage}
   \end{figure}
 
 \subsection{ITER Tokamak Project}
   \subsubsection{Tokamak}
 	\begin{figure}
 	  \centering
-	  \includegraphics[width=.8\linewidth]{media/iter_crosssection.jpeg}
+	  \includegraphics[width=.75\linewidth]{media/iter_crosssection.jpeg}
 	  \caption{ITER tokamak cross section\cite{iter_website}}
 	  \label{fig:iter_crosssection}
 	\end{figure}
@@ -215,7 +222,14 @@
 	First plasma operation is scheduled for the end of 2025\cite{iter_timeline},
 	although multiple delays have already happened in the past \cite{iter_delays},
 	so future ones would at this point not be too surprising. 
-
+  \autoref{fig:iter_aerial} shows an aerial picture of ITER from 14th of April 2020.
+  Not all facilities have been fully constructed at this time.
+	\begin{figure}[h]
+	  \centering
+	  \includegraphics[width=.9\linewidth]{media/iter_aerial_2022.jpg}
+	  \caption{Aerial view of the ITER facility as of 2022\cite{iter_website}}
+	  \label{fig:iter_aerial}
+	\end{figure}
 	\subsubsection{Primary Concerns}
 
 	With a project of this magnitude it is near impossible to predict
@@ -270,10 +284,17 @@ that would be unnecessary in the case of ASICs. These stray capacitances
 and inductances limit the maximum clock speed of FPGAs. This not too much
 of an issue provided that the function can be parallelised. To offset 
 this limitation, most FPGAs manufactured today come packed with 
-more complex sub-circuitry that can be intermixed with the CLBs.
+more complex sub-circuitry that can be intermixed with the CLBs
+as indicated in \autoref{fig:fpga_structure}.
 These components can vary greatly from fast arithmetical blocks
 to small CPU-based microcontrollers.
 
+	\begin{figure}[h]
+	  \centering
+	  \includegraphics[width=.6\linewidth]{media/fpga_structure.png}
+	  \caption{The internal structure of an FPGA}
+	  \label{fig:fpga_structure}
+	\end{figure}
 \subsection{Problem statement}
 
 The nature of FPGAs makes them instrumental in the data acquisition 
