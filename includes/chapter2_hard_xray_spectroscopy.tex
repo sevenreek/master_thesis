@@ -31,7 +31,7 @@ effects of REs their generation has to be avoided if possible. Otherwise
 they must be detected and dealt with accordingly. One method of doing so 
 involves the injection of noble gases in a process called 
 Massive Gas Injection (MGI) \cite{massive_gas_injection}.
-\begin{figure}
+\begin{figure}[h]
   \centering
   \includegraphics[width=.7\linewidth]{media/re_melt.jpeg}
   \caption{Effects of RE in the JET vessel\cite{iter_re_melt}}
@@ -120,6 +120,14 @@ This is the device that performs the binning action.
 Initially an MCA would consist of an array of 
 analogue comparators, and over time it would rely 
 on more and more digital components.
+The schematics of a typical analogue system are shown in \autoref{fig:analogue_pp}
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=\linewidth]{media/analog_pulse_processing.png}
+  \caption{Analogue Pulse Processing chain}
+  \label{fig:analogue_pp}
+\end{figure}
+
 
 
 As mentioned earlier, for a long time analogue processing 
@@ -152,7 +160,8 @@ Interference (EMI) and temperature-induced parameter variance.
 The earlier in a processing chain that the ADC is placed the
 lesser the influence of imperfect analogue components is.
 Seeing an ADC right after the preamplifier is commonplace
-in modern systems. Such approach, however, produces an important issue.
+in modern systems as shown in \autoref{fig:digital_pp}.
+Such approach, however, produces an important issue.
 To obtain a sufficient horizontal resolution comparable to analogue chains
 the ADC must sample the signal with a frequency of at least
 a few hundred MHz. This means that, at a typical vertical resolution
@@ -160,7 +169,12 @@ of anywhere between 8 to 16 bits, a modern high-speed ADC
 can generate anywhere between 100 megabytes 
 up to even a few gigabytes of data every second.
 \cite{dpp_walewski}
-
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=.7\linewidth]{media/digital_pulse_processing.png}
+  \caption{Digital Pulse Processing chain}
+  \label{fig:digital_pp}
+\end{figure}
 
 Processing gigabytes of data in real time poses one of 
 the primary challenges in designing Digital Pulse Processing systems.
