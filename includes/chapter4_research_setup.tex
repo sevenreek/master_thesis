@@ -12,7 +12,7 @@ combination Teledyne SP Devices ADQ14-4C was used. The board was connected
 through PCIe 2.0 to the host PC running custom acquisition software.
 ADQ14-4C can sample signals from up to 4 channels, each at a maximum
 frequency of 1 GHz. 
-\begin{table}[ht]
+\begin{table}[H]
 \caption{Chosen parameters of ADQ14-4C}
 \centering
   \begin{tabular}{l l}
@@ -56,10 +56,13 @@ Unfortunately the maximum size of DMA buffers is limited.
 With a sampling speed of a 1 GHz and 2 byte samples up 
 to two gigabytes of data can be generated each second for each
 channel that is active. Even with reliance on DMA maintaining 
-a transfer speed this high is problematic. The ADQ14's internal DRAM
-acts as a buffer whenever the throughput becomes to high.
+a transfer speed this high is problematic. To solve this issue, 
+the ADQ14's internal DRAM acts as a buffer 
+whenever the throughput becomes too high.
 Records are first stored in the internal DRAM and periodically
 transferred to the host PC's RAM whenever buffers become ready.
+At maximum speed a single channel can, however, still fill the entirety
+of this buffer in just a second if its contents are not processed in time.
 
 \subsubsection{Open FPGA design}
 

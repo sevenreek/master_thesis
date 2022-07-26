@@ -28,10 +28,12 @@ concentrated beam capable of melting the front-facing walls of a reactor.
 The effects of such damage being purposefully introduced in the JET tokamak
 are shown in \autoref{fig:re_melt}. To prevent mitigate the destructive
 effects of REs their generation has to be avoided if possible. Otherwise
-they must be detected and dealt with accordingly. One method of doing so 
-involves the injection of noble gases in a process called 
+they must be detected and dealt with accordingly. Typically plasma heating
+might be reduced, or the electromagnets are preciesly accentuated
+to reduce the disruptions. More extreme methods might 
+involve the injection of noble gases in a process called 
 Massive Gas Injection (MGI) \cite{massive_gas_injection}.
-\begin{figure}[h]
+\begin{figure}[H]
   \centering
   \includegraphics[width=.7\linewidth]{media/re_melt.jpeg}
   \caption{Effects of RE in the JET vessel\cite{iter_re_melt}}
@@ -52,17 +54,23 @@ The photons generated in Bremsstrahlung by Runaway Electrons
 can be detected with the use of a device known as a PhotoMultiplier Tube (PMT).
 A PMT is built with the use of a photocathode and an electron multiplier.
 When a radiation photon hits the photocathode an electron is emitted
-due to the photoelectric effect. Electric fields in the PMT accelerate the 
+due to the photoelectric effect. The electric fields in a PMT accelerate the 
 electron towards a series of dynodes. Each collision with a dynode causes
 a release of additional electrons and forms a stronger beam that 
 eventually reaches the anode where it becomes measurable as a current pulse.
-Typically a gain in the order of $10^6$ is obtained.
+\autoref{fig:pmt} shows the internal structure of a PMT together with the output
+signal, a sharp exponentially decaying current pulse.
 \cite{pmts_basics, pmt_gain}
-
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=.7\linewidth]{media/pmt.png}
+  \caption{A PhotoMultiplier Tube}
+  \label{fig:pmt}
+\end{figure}
 \subsection{Preamplifiers}
 
-The internal gain of a PMT is sufficient for many applications and 
-does not require additional amplification. The produced current impulses 
+The internal gain of a PMT, obtained from the electron multiplication
+is sufficient for many applications. The produced current impulses 
 can be detected with precise circuitry,
 however there are multiple reasons for which
 a preamplifier is often used in tangent with a PMT. With a typical
@@ -121,7 +129,7 @@ Initially an MCA would consist of an array of
 analogue comparators, and over time it would rely 
 on more and more digital components.
 The schematics of a typical analogue system are shown in \autoref{fig:analogue_pp}
-\begin{figure}[h]
+\begin{figure}[H]
   \centering
   \includegraphics[width=\linewidth]{media/analog_pulse_processing.png}
   \caption{Analogue Pulse Processing chain}
@@ -169,7 +177,7 @@ of anywhere between 8 to 16 bits, a modern high-speed ADC
 can generate anywhere between 100 megabytes 
 up to even a few gigabytes of data every second.
 \cite{dpp_walewski}
-\begin{figure}[h]
+\begin{figure}[H]
   \centering
   \includegraphics[width=.7\linewidth]{media/digital_pulse_processing.png}
   \caption{Digital Pulse Processing chain}

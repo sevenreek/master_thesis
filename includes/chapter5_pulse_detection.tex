@@ -1,11 +1,11 @@
 \section{Pulse detection}
-The prerequisite to any pulse processing is their detection. 
+In order to process any pulses they must be first detected. 
 The window of interest containing a pulse to be analysed
 must be properly distinguished from the surrounding noise.
 Although detection is a must, it also brings the added benefit
 of data rate reduction. If pulses can be accurately 
 marked within a signal it is possible to transfer only
-those samples that compose the events. 
+those samples that compose the events to the host PC. 
 
 
 The ADQ14 is capable of sampling signals with a frequency of
@@ -22,13 +22,21 @@ false positives are transmitted.
 
 \subsection{Level trigger}
 The most basic approach to detection is a level trigger,
-a technology available to any spectroscope. As shown in 
+a technology available in virtually any spectroscope. As shown in 
 \autoref{fig:level_trigger}, a trigger occurs when
 the input signal crosses a predefined voltage level,
 either on a rising or a falling edge. The point at which
-this occurs marks the beginning of a record window.
+this happens marks the beginning of a record window.
 In the simplest case the end of a window is placed
-a fixed duration from the start.
+a fixed duration from the start. Samples within that window
+form a region of interest and are transferred further
+down the processing pipeline.
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=.5\linewidth]{media/level_trigger.png}
+  \caption{Level trigger}
+  \label{fig:level_trigger}
+\end{figure}
 
 
 Once a window finishes, no more events are detected
@@ -39,24 +47,41 @@ might lead to a scenario shown in \autoref{fig:lt_no_hysteresis}.
 In a noisy environment the signal might falsely trigger immediately after
 a window ends due to a random high spike on the slower falling edge of
 an exponential pulse.
-
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=.5\linewidth]{media/lt_no_hysteresis.png}
+  \caption{Level trigger with no hysteresis}
+  \label{fig:lt_no_hysteresis}
+\end{figure}
 
 To prevent such false triggers typically some form of a hysteresis is used.
 The reset level is shifted downwards, so that the input signal must cross
 such a threshold that the random noise is almost guaranteed to never cause false 
 triggers. \autoref{fig:lt_hysteresis} shows a hysteresis mitigating some false triggers.
-
+Some of the false triggers from \autoref{fig:lt_no_hysteresis} are removed, however 
+due to the high noise some still persist.
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=.5\linewidth]{media/lt_hysteresis.png}
+  \caption{Level trigger with a hysteresis}
+  \label{fig:lt_hysteresis} 
+\end{figure}
 
 With the slow falling edge of a pulse care must be taken not to 
 overestimate the hysteresis. By setting the reset level too far away
 from the trigger level pile-ups can be missed as pointed to in
-\autoref{fig:lt_hysteresis_overshoot}. With a properly set hysteresis
+\autoref{fig:lt_hysteresis_miss}. With a properly set hysteresis
 the level trigger offers performance that is sufficient in most applications,
 as suggested by its prevalence in modern spectroscopes.
 In a tokamak's environment, however, the hysteresis
 alone could potentially prove insufficient due to 
 electromagnetic and temperature fluctuations having an effect on noise.
-
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=.5\linewidth]{media/lt_hysteresis_miss.png}
+  \caption{Level trigger hysteresis causing missed events}
+  \label{fig:lt_hysteresis_miss} 
+\end{figure}
 \subsection{Boxcar filter}
 
 The two problems most apparent to simple level triggering 
