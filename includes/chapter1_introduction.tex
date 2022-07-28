@@ -243,9 +243,10 @@
 	  \caption{Aerial view of the ITER facility as of 2022\cite{iter_website}}
 	  \label{fig:iter_aerial}
 	\end{figure}
-	\subsubsection{Primary Concerns}
 
-	With a project of this magnitude it is near impossible to predict
+\subsection{Real time diagnostics}
+
+	With a project of such large magnitude as ITER it is near impossible to predict
 	everything that might go wrong. There are naturally safety concerns,
 	questions regarding the ambitious goals set by the management and
 	the troubles of international cooperation\cite{iter_delays}.
@@ -270,6 +271,7 @@
 	infinite configurability preferably with remote access 
 	as well as a very high data throughput. 
 
+
 	Traditional computers or more precisely Central Processing Units (CPUs) 
 	are remotely reprogrammable but may offer insufficient speeds in 
 	some of the real time applications. On the other end of this scale lie 
@@ -280,34 +282,36 @@
 	after deployment, making them a risky choice in highly experimental
 	applications such as tokamaks.
 
-\subsection{Field Programmable Gate Arrays}
-Devices that offer a compromise between speed and reconfigurability
-exist nowadays. Most commonly Field Programmable Gate Arrays (FPGAs) are used.
-FPGAs are formed out of matrices of so called Configurable Logic Blocks (CLBs).
-These are small circuits that produce a single bit of logic output
-out of 4 input bits, using a reprogrammable function. These blocks 
-are then wired together using programmable interconnects. Such design 
-allows for the implementation of very efficient digital algorithms
-directly with the use of logical gates, without the need for an
-entire processor. \cite{xilinx_what_is_fpga}
+  \subsubsection{Field Programmable Gate Arrays}
+    Devices that offer a compromise between speed and reconfigurability
+    exist nowadays. Most commonly Field Programmable Gate Arrays (FPGAs) are used.
+    FPGAs are formed out of matrices of so called Configurable Logic Blocks (CLBs).
+    These are small circuits that produce a single bit of logic output
+    out of 4 input bits, using a reprogrammable function. These blocks 
+    are then wired together using programmable interconnects. Such design 
+    allows for the implementation of very efficient digital algorithms
+    directly with the use of logical gates, without the need for an
+    entire processor. \cite{xilinx_what_is_fpga}
 
 
-The interconnects and CLB internal structure introduce additional wiring
-that would be unnecessary in the case of ASICs. These stray capacitances 
-and inductances limit the maximum clock speed of FPGAs. This not too much
-of an issue provided that the function can be parallelised. To offset 
-this limitation, most FPGAs manufactured today come packed with 
-more complex sub-circuitry that can be intermixed with the CLBs
-as indicated in \autoref{fig:fpga_structure}.
-These components can vary greatly from fast arithmetical blocks
-to small CPU-based microcontrollers.
+    The interconnects and CLB internal structure introduce additional wiring
+    that would be unnecessary in the case of ASICs. These stray capacitances 
+    and inductances limit the maximum clock speed of FPGAs. This not too much
+    of an issue provided that the function can be parallelised. To offset 
+    this limitation, most FPGAs manufactured today come packed with 
+    more complex sub-circuitry that can be intermixed with the CLBs
+    as indicated in \autoref{fig:fpga_structure}.
+    These components can vary greatly from fast arithmetical blocks
+    to small CPU-based microcontrollers.
 
-	\begin{figure}[H]
-	  \centering
-	  \includegraphics[width=.6\linewidth]{media/fpga_structure.png}
-	  \caption{The internal structure of an FPGA}
-	  \label{fig:fpga_structure}
-	\end{figure}
+    \begin{figure}[H]
+      \centering
+      \includegraphics[width=.6\linewidth]{media/fpga_structure.png}
+      \caption{The internal structure of an FPGA}
+      \label{fig:fpga_structure}
+    \end{figure}
+    
+
 \subsection{Problem statement}
 
 The nature of FPGAs makes them instrumental in the data acquisition 
