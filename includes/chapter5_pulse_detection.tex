@@ -167,11 +167,13 @@ It relies on the use of a Moving Window Deconvolution (MWD),
 as first proposed by Georgiev et al. \cite{mwd}.
 It is trivial to obtain a trapezoidal shape from a step input function.
 The MWD algorithm works to transform an exponentially decaying pulse into 
-a step signal. A step function is undesirable in continous mode of operation
-as the pulses form a staircase and eventually saturate. The simple solution
-is to perform a subtraction of a delayed sample. This changes the step signal
-to a rectangular shape with a length defined by the used delay.
-The staircase becomes a train of rectangular pulses.
+a step signal. A step function, while perfect for transformations,
+is undesirable in continuous mode of operation.
+With multiple pulses, they form a staircase and eventually saturate.
+The simple solution is to perform a subtraction of a delayed sample.
+This changes the step signal
+to a rectangular shape with a length defined by the delay amount.
+The staircase then becomes a train of rectangular pulses.
 \autoref{fig:mwd_staircase} shows the consecutive steps of a MWD algorithm.
 
 \begin{figure}[H]
@@ -201,7 +203,7 @@ an averaging step is applied. This causes the edges to smoothen and as a
 side effect decrease the noise as shown in \autoref{fig:mwd_average}.
 The trapezoid filter can also be synthesized using
 alternative methods that are better optimized for hardware implementation.
-MWD requires division which is an extermely resource consuming operation 
+MWD itself requires division which is an extremely resource consuming operation 
 in digital signal processing.
 
 \begin{figure}[H]
@@ -214,7 +216,7 @@ in digital signal processing.
 \subsection{Triangular filter}
 
 As mentioned earlier the flattop region of a trapezoidal filter
-is not particularily useful for pulse detection. By using an 
+is not particularly useful for pulse detection. By using an 
 averaging filter with the same window length as the MWD window, 
 the flattop is squeezed and a triangular shape is formed
 as shown \autoref{fig:triangular_filter}.
@@ -228,5 +230,78 @@ trapezoidal filter that can be used if only detection or timing is of interest.
   \label{fig:triangular_filter} 
 \end{figure}
 
-\subsection{Other solutions}
+\subsection{Other pulse detection methods}
+
+Other methods and filters for detection apart from those described above
+can be found in scientific literature. They have not been chosen
+for implementation in this work due to their low maturity,
+excessive complexity or subpar performance. 
+Low hardware resource usage and minimal delay
+were some of the primary parameters considered due to 
+the need of real-time processing of incoming pulses.
+
+
+Faisal et al. used normalized cross-correlation to compare
+the similarity of incoming pulses to a predefined ideal template pulse.
+The algorithm was implemented in an FPGA at a sampling rate of 250 MS/s.
+When compared to amplitude thresholding, 
+their method improved the probability of correct pulse detection by a factor of 4
+when a template obtained from averaging capture pulses was used;
+and by a factor of 3 when a greatly simplified square model was used.
+\cite{detection_cross_correlation}
+
+
+Kamleitner et al analysed and compared a multitude
+of different edge detection algorithms. 
+Apart from algorithms similar to the trapezoidal filter and the boxcar
+filter described above, the work analyzed three similarity matching algorithms,
+Canny's edge detector, as well as optimally designed FIR filters.
+The optimum filters won the benchmarks, however, they were closely followed by
+the boxcar-like Single Delay Line as well as the trapezoidal filter.
+Similarity filters fared significantly worse, offering superior performance
+only when it came to the number of false positives.
+\cite{pulse_processing_methods}
+
 \subsection{Simulation performance}
+
+In order to find the most suitable filters for hardware implementation
+in the Hard X-Ray Monitor the algorithms were first subjected to a
+series of simulated software tests.
+Level triggering, zero crossing detection, triangular and boxcar 
+filtering were implemented with the use of the numpy and scipy
+libraries in Python. 
+The same libraries were used to create a test bench for generating
+simulated impulses with a configurable frequency, noise, amplitude and decay constant.
+
+
+The test pulse trains were fed to the filters and each output was 
+tested with an array of different trigger configurations.
+The trigger level and reset at which the cost function was lowest for 
+a given algorithm was chosen as the representative record for comparison
+between different filters.
+For each record the number of properly detected pulses (true positives),
+missed pulses (false negatives) and noise mistaken for pulses (false positives) 
+were counted and divided by the total pulse count.
+This is crucial, as the pulse count was higher in tests that checked 
+behavior under high pile-up conditions.
+
+
+For initial filter functionality tests and debugging, a graphical user interface
+was prepared with the use of the matplotlib library.
+The tool would run a test scenario, generate a train of pulses with 
+the specified parameters, filter the input signal and run
+user-configured level triggering on the output signal.
+The end result would be a plot superimposing the input and output signals.
+Detected pulse were marked with a green rectangle. Missed pulses
+showed up as red dashed rectangles and wrongly classified noise
+was marked with an orange color.
+
+
+Once the filters and the testbench were rid of bugs and optimized 
+with the graphical tool, it was modified for automated testing.
+Instead of using user-specified trigger levels the script would 
+test a range of settings to find the best ones. In place of the graphical
+result a confusion matrix for each approach was used.
+The best results from each algorithm were then plotted on
+one graph to obtain a figure of merit based comparison for 
+different methods.
