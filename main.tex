@@ -3,7 +3,7 @@
 
 \documentclass[11pt,a4paper]{article}	
 
-\input{./includes/declarations.tex}
+\input{./includes/__declarations.tex}
 \input{./bib/bib.tex}
 \onehalfspacing
 \setlength{\parskip}{\baselineskip}%
@@ -14,7 +14,7 @@
 \begin{document}
 \selectlanguage{polish}
 % print title
-\input{./includes/title.tex}
+\input{./includes/_title.tex}
 \newpage
 \selectlanguage{english}
 
@@ -23,13 +23,13 @@
 
 \selectlanguage{polish}
 \begin{abstract}
-\input{./includes/abstract_en.tex}
+\input{./includes/_abstract_en.tex}
 \end{abstract}
 \newpage
 
 \selectlanguage{english}
 \begin{abstract}
-\input{./includes/abstract_pl.tex}
+\input{./includes/_abstract_pl.tex}
 \end{abstract}
 \newpage
 
@@ -37,13 +37,13 @@
 \newpage
 \input{./includes/chapter2_hard_xray_spectroscopy.tex}
 \newpage
-\input{./includes/chapter3_system_requirements.tex}
+\input{./includes/chapter3_research_setup.tex}
 \newpage
-\input{./includes/chapter4_research_setup.tex}
+\input{./includes/chapter4_pulse_detection.tex}
 \newpage
-\input{./includes/chapter5_pulse_detection.tex}
+\input{./includes/chapter5_pulse_analysis.tex}
 \newpage
-\input{./includes/chapter6_pulse_analysis.tex}
+\input{./includes/chapter6_firmware_solution.tex}
 \newpage
 \input{./includes/chapter7_data_transfer.tex}
 \newpage
