@@ -294,8 +294,18 @@ user-configured level triggering on the output signal.
 The end result would be a plot superimposing the input and output signals.
 Detected pulse were marked with a green rectangle. Missed pulses
 showed up as red dashed rectangles and wrongly classified noise
-was marked with an orange color.
+was marked with an orange color. \autoref{fig:graphical_tool_boxcar}
+shows an example output from the graphical tool. A boxcar filter is used 
+to improve the perormance of detection. In the example one pulse
+is not detected due to pile-up and one is not detected due
+to a badly configured trigger threshold.
 
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{media/graphical_tool_boxcar.png}
+  \caption{Example output from the graphical tool for debugging detection filters}
+  \label{fig:graphical_tool_boxcar} 
+\end{figure}
 
 Once the filters and the testbench were rid of bugs and optimized 
 with the graphical tool, it was modified for automated testing.
@@ -305,3 +315,42 @@ result a confusion matrix for each approach was used.
 The best results from each algorithm were then plotted on
 one graph to obtain a figure of merit based comparison for 
 different methods.
+
+
+\autoref{fig:detetion_sim_pulse_rate} and \autoref{fig:detetion_sim_noise}
+show the results of the simulations. The cost function used to rate the 
+filters was a sum of false negatives and false positives divided by the 
+total number of pulses that actually were present in the simulation.
+Both triangular and boxcar filters provide an immense improvement over
+level triggering on raw signal. A triangular filter
+with the same max delay length provides slightly better accuracy 
+than a boxcar filter.
+
+
+While a filter with a longer averaging effect (longer window length) 
+fares better in noisier environments, as indicated in figure
+\autoref{fig:detection_sim_noise}, the inverse is true when 
+it comes to pile-up frequency. Shorter filters have a higher likelihood
+of discriminating between two overlapping pulses as shown 
+by the results in \autoref{fig:detection_sim_pulse_rate}.
+There is no detection filter that is best for all applications.
+The filter must be tuned to a specific use case, however
+some filters, like the Boxcar offer a simpler interface for
+doing so, than others.
+
+  \begin{figure}[H]
+    \centering
+    \begin{minipage}{.45\textwidth}
+      \centering
+      \includegraphics[width=\linewidth]{media/detection_sim_pulse_rate.png}
+      \caption{Detection algorithms compared under varying pulse frequency}
+      \label{fig:detection_sim_pulse_rate}
+    \end{minipage}%
+    \hfill
+    \begin{minipage}{.45\textwidth}
+      \centering
+      \includegraphics[width=\linewidth]{media/detection_sim_noise.png}
+      \caption{Detection algorithms compared under varying noise magnitude}
+      \label{fig:detection_sim_noise}
+    \end{minipage}
+  \end{figure}

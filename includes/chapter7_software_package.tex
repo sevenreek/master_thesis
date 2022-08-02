@@ -1,0 +1,47 @@
+\section{HXRM firmware}
+
+Based on the results of research and simulations, the best timing
+and shaping algorithms were implemented in hardware.
+The ADQ14 uses Verilog and Vivado 2015.2, so these tools
+were chosen for the implementation of the HXRM.
+The developed system performs pulse detection,
+measures the peak height, stores the resultant spectrum
+and periodically transfer the results to the host PC.
+
+\subsection{System overview}
+
+As described in \autoref{ssec:adq_devkit} the ADQ14 DevKit
+grants a semi-open FPGA design with two modules that can be
+freely modified by the end user. The board manufacturer
+designed User Logic 1 with intent for it to house timing filters
+and User Logic 2 to contain more specialized processing logic.
+Initially, these ideas were followed with a Boxcar filter being
+implemented in User Logic 1 and a Pulse Height Analyzer being placed 
+in User Logic 2.
+
+
+With the default firmware, ADQ14 generates fixed-length records
+on trigger events. For example, with the window length set to a 1000
+samples, upon the detection of a pulse, 1000 samples would always be
+transferred to the PC, irregardless of pile ups and other disturbances.
+For this reason the timing logic originally placed in User Logic 1 was moved
+to User Logic 2, so that it could be better integrated with the rest 
+of the pulse analysis systems. The UL2 module allows for full control 
+over record lengths so sampling windows in which pile ups were detected
+could now be rejected, split into two or prolonged depending on the need.
+\autoref{fig:firmware_overview} gives an overview of the system designed
+in User Logic 2.
+
+\subsection{System control}
+
+The system is configured and controlled through so called 
+user registers. $2^19$ individually addressable 32-bit words
+are available for reading and writing to from the PC. The first
+four words are reserved for internal use. Next four have been 
+dedicated for configuration and control as listed in \autoref{tab:register_control}.
+The $2^14$ block of addresses starting from position 9, can
+be used to read values from bins forming the currently held spectrum.
+
+\subsection{Pulse detection}
+\subsection{Pulse height analysis}
+\subsection{Spectrum storage and transfer}
