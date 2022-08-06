@@ -1,12 +1,42 @@
 \section{Research setup}
+
 An FPGA powered data acquisition board was used as the platform 
 for the hardware implementation of digital pulse processing of PMT
 signals.
 The following subsections describe the system component in detail and
-\autoref{fig:system_overview} shows an overview of the testbench.
+\autoref{fig:system_overview} shows an overview of the test bench.
+A 25 kBq $^137 Cs$ radioactive sample was placed in a plastic V-vial
+and used to test the setup.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{media/system_overview.png}
+  \caption{HXRM test bench overview}
+  \label{fig:system_overview} 
+\end{figure}
+
 \subsection{PMT}
+
+Hamamatsu R11265U served as the PhotoMultiplier Tube. 
+A 15 mm GPS:Ce scintillator wrapped in aluminium foil was 
+connected coupled directly to the PMT to generate light pulses
+from the radiation. The PMT with the scintillator and radioactive material
+were placed in a dark container and held together with a 
+custom-designed 3D printed casing.
+
 \subsection{Preamplifier}
+
+The design of a preamplifier capable of transforimng the PMT output signal 
+is a non-trivial task. Nearly no commercially available amplifiers
+offer parameters that satisfy all of the requirements.
+Specifically for this project, a custom low-noise preamplifier 
+has been developed by Nowakowski et al. and described in another 
+paper. The PMT-Preamplifier combination generated pulses that could
+be fit to a single exponential model with a decay constant of 130 ns.
+\cite{low_noise_amplifier_for_pmt}
+
 \subsection{Digitizer board}
+
 To acquire and digitize the signals produced by the PMT and preamplifier
 combination Teledyne SP Devices ADQ14-4C was used. The board was connected
 through PCIe 2.0 to the host PC running custom acquisition software.
@@ -15,12 +45,17 @@ frequency of 1 GHz.
 \begin{table}[H]
 \caption{Chosen parameters of ADQ14-4C}
 \centering
-  \begin{tabular}{l l}
-    material  & T [K]\\
-    \hline
-    Sn                     & 3,7 \\
-    Pb                     & 7,2 \\
-    Al                     & 1,2\\
+  \begin{tabular}{l | l}
+  {\bfseries Parameter} & {\bfseries Value}\\
+  \hline
+  \textit {Channel count}             & 4 \\ \hline
+  \textit {Sampling rate}  & 1 GS/S \\ \hline
+  \textit {Vertical resolution}   & 14 bits\\ \hline
+  \textit {Interface}         & PCIe 2.0 x8\\ \hline
+  \textit {Max. data transfer rate}         & 3.2 GB/s\\ \hline
+  \textit {Internal DRAM memory}      & 2 GB\\ \hline
+  \textit {Input range peak to peak}   & 0.2 V - 10 V\\ \hline
+  \textit {Number of GPIO ports}         & 12\\ 
   \end{tabular}
   \label{tab:adq14_datasheet}
 \end{table}
@@ -92,7 +127,7 @@ controlled from within User Logic 2. Arbitrary data can be injected
 in place of the samples for each channel and the size of transferred windows 
 can be modified.
 
-\subsubsection{Parallel sampling}
+\subsubsection{Parallel sampling} \label{sssec:parallel_sampling}
 
 The FPGA is clocked only at 250 MHz which is exactly a quarter of 
 the ADC maximum operating frequency. This means that each channel
@@ -112,6 +147,24 @@ Most functionality must be properly pipelined to avoid
 timing issues in the FPGA design.
 
 \subsection{Host computer}
+
+The host computer was running Red Hat Enterprise Linux 7.
+\autoref{tab:pc_specs} lists the computer hardware configuration.
+\begin{table}[H]
+\caption{Hardware configuration of the host PC}
+\centering
+  \begin{tabular}{l | l}
+  {\bfseries Parameter} & {\bfseries Value}\\
+  \hline
+  \textit {CPU}             & Intel Xeon C5549 \\ \hline
+  \textit {Storage}  & Samsung 970 EVO Plus 500 GB \\ \hline
+  \textit {Operating System}   & Red Hat Enterprise Linux 7.4\\ \hline
+  \textit {GPU}         & NVIDIA GP107 \\ \hline
+  \textit {RAM}      & 24 GB DDR3 1333 MHz\\ 
+  \end{tabular}
+  \label{tab:pc_specs}
+\end{table}
+
 \subsection{Software package}
 To control the acquisition process and handle the data transfer,
 a custom software GUI application was developed. The application
