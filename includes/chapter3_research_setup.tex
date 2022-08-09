@@ -165,20 +165,3 @@ The host computer was running Red Hat Enterprise Linux 7.
   \label{tab:pc_specs}
 \end{table}
 
-\subsection{Software package}
-To control the acquisition process and handle the data transfer,
-a custom software GUI application was developed. The application
-employs an API provided by SP Devices to interface to the digitizer board.
-The Qt5 framework is used for GUI display and multiple other functions.
-The application leverages the Qt's signal/slot system heavily to synchronize
-threaded events.
-
-
-The primary thread of the software application
-is used for UI display and general tasks like 
-loading and saving configurations. A secondary thread
-is spawned to control data acquisition and archival.
-The proper operation of the secondary worker thread
-is crucial in obtaining a high data throughput and 
-the process of software optimization is described in 
-\autoref{sec:data_transfer}

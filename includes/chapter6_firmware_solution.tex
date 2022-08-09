@@ -40,13 +40,36 @@ in User Logic 2.
 \end{figure}
 \subsection{System control}
 
-The system is configured and controlled through so called 
+The system is configured and controlled with the use of so called 
 user registers. $2^{19}$ individually addressable 32-bit words
 are available for reading and writing to from the PC. The first
 four words are reserved for internal use. Next four have been 
-dedicated for configuration and control as listed in \autoref{tab:register_control}.
+dedicated for configuration and control as listed in \autoref{tab:ureg_control}.
 The $2^{14}$ block of addresses starting from position 9, can
 be used to read values from bins forming the currently held spectrum.
+
+\begin{table}[H]
+\caption{User register addresses}
+\centering
+  \begin{tabular}{l | l | l}
+  {\bfseries Address} & {\bfseries Bits} & {\bfseries Description}\\
+  \hline
+  0-3  & *      & \textit {ADQ14 Reserved}\\ \hline
+  4    & 0-31       & \textit {ZCD threshold level}\\ \hline
+  5    & 0-31       & \textit {Analog DC bias}\\ \hline
+  6    & 0       & \textit {PHA enable}\\ \hline
+  6    & 1       & \textit {PHA reset}\\ \hline
+  6    & 2       & \textit {ZCD trigger enable}\\ \hline
+  6    & 3       & \textit {Windowed spectrum enable}\\ \hline
+  6    & 4-15  & \textit {Reserved for future use}\\ \hline
+  6    & 16-31   & \textit {Record length}\\ \hline
+  7    & 0-15   & \textit {Spectrum window length}\\ \hline
+  7    & 28-31   & \textit {Spectrum bin count reduction}\\ \hline
+  8    & *  & \textit {Reserved for future use}\\ \hline
+  9-16392    & *   & \textit {Long window spectrum counts}\\ 
+  \end{tabular}
+  \label{tab:ureg_control}
+\end{table}
 
 \subsection{Pulse detection}
 Pulse detection relies on the use of a configurable boxcar filter
@@ -176,7 +199,7 @@ with a software algorithm and compared with the spectrum downloaded from the FPG
 \autoref{fig:hardware_software_spectrum}
 shows the results of the real-time firmware spectroscopy overlaid
 with the offline processing method. The most important features
-of the $^137 Cs$ sample are preserved in the hardware spectrum,
+of the $^{137} Cs$ sample are preserved in the hardware spectrum,
 suggesting a successful implementation of the described algorithm.
 
 \begin{figure}[H]
