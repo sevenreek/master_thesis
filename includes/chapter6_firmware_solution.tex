@@ -1,12 +1,12 @@
 \section{HXRM firmware}
 
-Based on the results of research and simulations, the best timing
+Based on the results of the research and simulations, the best timing
 and shaping algorithms were implemented in hardware.
 The ADQ14 uses Verilog and Vivado 2015.2, so these tools
 were chosen for the implementation of the HXRM.
 The developed system performs pulse detection,
 measures the peak height, stores the resultant spectrum
-and periodically transfer the results to the host PC.
+and periodically transfers the results to the host PC.
 
 \subsection{System overview}
 
@@ -27,8 +27,8 @@ transferred to the PC, irregardless of pile ups and other disturbances.
 For this reason the timing logic originally placed in User Logic 1 was moved
 to User Logic 2, so that it could be better integrated with the rest 
 of the pulse analysis systems. The UL2 module allows for full control 
-over record lengths so sampling windows in which pile ups were detected
-could now be rejected, split into two or prolonged depending on the need.
+over record lengths, so sampling windows, in which pile ups were detected,
+could now be rejected, split into two or combined.
 \autoref{fig:firmware_overview} gives an overview of the system designed
 in User Logic 2.
 
@@ -43,10 +43,11 @@ in User Logic 2.
 The system is configured and controlled with the use of so called 
 user registers. $2^{19}$ individually addressable 32-bit words
 are available for reading and writing to from the PC. The first
-four words are reserved for internal use. Next four have been 
+four words are reserved for internal use by the ADQ library. 
+In the custom design, the next four have been 
 dedicated for configuration and control as listed in \autoref{tab:ureg_control}.
 The $2^{14}$ block of addresses starting from position 9, can
-be used to read values from bins forming the currently held spectrum.
+be used to read the currently held spectrum.
 
 \begin{table}[H]
 \caption{User register addresses}
@@ -72,7 +73,7 @@ be used to read values from bins forming the currently held spectrum.
 \end{table}
 
 \subsection{Pulse detection}
-Pulse detection relies on the use of a configurable boxcar filter
+The pulse detection module relies on the use of a configurable boxcar filter
 that then passes through a zero crossing detector. Depending on the
 length of the boxcar window the result of the ZCD is delayed by an appropriate
 amount so that it points to a point at which the trapezoidal filter's 
@@ -81,8 +82,8 @@ First it awaits a user specified threshold value to be crossed. Only after
 that event occurs, does it start looking for a zero crossing.
 After a zero crossing the system returns back to the threshold awaiting state.
 \autoref{fig:zcd_algorithm} illustrates this algorithm. 
-The threshold value is transferred through user registers and does not require
-the FPGA to be reprogammed if modified.
+The threshold value is set through user registers and does not require
+the FPGA to be reprogammed to be modified.
 
 \begin{figure}[H]
   \centering
@@ -119,32 +120,33 @@ for parsamp in [3...0]:
 \end{lstlisting}
 
 
-Four parallel samples are avialable on each clock cycle. To obtain
-an avarege they all must be added together. This requires the design
-to use pipelining. Attempting to add up 4 16-bit integers would
-violate the timinig constraints specified by the FPGA. In other words,
-the synthesis tool could not route such a path in the device
-that this operation would reliably execute at the 250 MHz clock frequency.
-Instead an optimized pipeline is used. 
+Four parallel samples are available on each clock cycle. To obtain
+an average they all must be added together. This requires the design
+to use pipelining. Attempting to add up 4 16-bit integers within a single clock cycle
+would violate the timing constraints specified by the FPGA. In other words,
+the synthesis tool can not route such a path in the device
+that this addition would reliably execute at the 250 MHz clock frequency.
 
 
-In the first step for each parallel sample a moving average is calculated
+As the first step, a moving average is calculated for each parallel sample 
 as if the given sample was the only sample generated on each clock cycle. 
-One sample outside now outside the MA window is subtracted and a new sample
+One sample now outside the MA window is subtracted and a new sample
 is added to the current rolling sum. In the next pipeline steps 
-the four parallel samples must be added together. The proposed algorithm
+the four parallel samples are added together. The proposed algorithm
 relies solely on two operand addition and requires one less clock cycle
 when compared to a simple cascading addition. 
 
 
-As the penultimate step the division over the window length is made.
-This is a very costly operation in terms of hardware usage.
-It can however be avoided if the possible window lengths are limited to 
+As the penultimate step a division over the window length is made.
+Integer division is a very costly operation in terms of hardware usage.
+It can, however, be avoided if the allowable window lengths are limited to 
 natural powers of 2. In such case a division is equivalent to a  
 right bitshift by a number equal to the power exponent.
-An integer divider would require around 20 clock cycles to complete.
-A bitshift can be very efficiently performed within a signle clock cycle.
-Finally, to obtain the Boxcar, the divided values are delayed by the
+A 16-bit integer divider requires around 20 clock cycles to produce a result.
+A bitshift can be very efficiently performed within a single clock cycle.
+
+
+Finally, to obtain the boxcar, the divided values are delayed by the
 window length and subtracted. \autoref{fig:accumulator} shows
 the optimized accumulator being realized with DSP blocks.
 
@@ -158,14 +160,14 @@ the optimized accumulator being realized with DSP blocks.
 \subsection{Pulse height analysis}
 
 The timing generated by the ZCD is resynchronized to a trapezoidal filter, 
-to indicate the start of a trapezoid forming. After a delay equal to the 
-trapezoid edge the sampling module is triggered. The module
+to indicate the start of the trapezoid. After a delay equal to the 
+trapezoid edge the peak sampling module activates. The module
 accumulates every sample from the trapezoid flattop and 
 divides the end result by the number of samples.
 The result grants an average flattop height that corresponds
 to the pulse peak height. The averaging action reduces overall noise
-and increases precision of the measurement.
-\autoref{fig:pha_algorithm} visualizes the algorithm.
+and increases the measurement's precision.
+\autoref{fig:pha_algorithm} visualizes the PHA algorithm.
 
 \begin{figure}[H]
   \centering
@@ -180,7 +182,7 @@ design of the trapezoidal filter, described by Jordanov \cite{jordanov_trapezoid
 is used. \autoref{fig:trapezoid_dsp} shows the filter being 
 implemented with the use of DSP blocks. The design requires two 
 accumulators, four addition blocks and one multiplier.
-Constant multiplication can be achieved with designs
+Single-clock constant multiplication can be achieved with designs
 based on Look Up Tables (LUTs). If the operand M is a power of 2,
 the operation can be replaced with a left bit shift.
 \begin{figure}[H]
@@ -190,17 +192,21 @@ the operation can be replaced with a left bit shift.
   \label{fig:trapezoid_dsp} 
 \end{figure}
 
+\subsubsection{Experimental results}
 
-The PHA firmware was programmed onto ADQ14 and run in parallel
+The custom PHA firmware was programmed onto ADQ14 and run in parallel
 with an acquisition process. The firmware solution performed real-time
 spectroscopy. At the same time the raw signal was transferred to the PC.
 After an hour long acquisition finished, the raw signal was processed 
 with a software algorithm and compared with the spectrum downloaded from the FPGA.
+
+
 \autoref{fig:hardware_software_spectrum}
 shows the results of the real-time firmware spectroscopy overlaid
 with the offline processing method. The most important features
 of the $^{137} Cs$ sample are preserved in the hardware spectrum,
 suggesting a successful implementation of the described algorithm.
+The proposed HXRM will be tested with other samples in the future.
 
 \begin{figure}[H]
   \centering
@@ -212,28 +218,30 @@ suggesting a successful implementation of the described algorithm.
 \subsection{Spectrum storage and transfer}
 
 The HXRM specification requires it to operate in continuous windowed mode.
-Spectras are collected in 10 ms windows. As soon as one window finishes,
-the device should start creating a second spectrum, while simultanously 
+Spectra are collected in 10 ms windows. As soon as one window finishes,
+the device must start building a second spectrum, while simultaneously 
 transferring the first one to the PC. No dead-time should occur 
 when starting a new sampling window.
 
 
 This requirement poses a problem when it comes to the spectrum storage.
 With 14-bit samples the maximum theoretical resolution of the spectrum
-that can be obtained is also going to be 14 bits. A spectrum is essentialy 
+that can be obtained is also going to be 14 bits. A spectrum is essentially 
 an array of pulse counts in each bin range. With 32 bits chosen 
 for the count resolution a total of $2^{14}$ 32-bit words is required to 
 store a single spectrum.
-This requires the use of Block Random Access Memory (BRAM) as no other FPGA structure can realize
+This requires the use of Block Random Access Memory (BRAM)
+as no other FPGA memory structure can realize
 individually addressable increments on this scale within the timing constraints.
 
 
 To prevent dead-time two BRAMs are used in an alternating mode.
 While one of the BRAMs is used to build the spectrum, the other one
 transfers its data to the PC and then resets its counts to back to zero.
+Once a window finishes the roles are reversed.
 \autoref{fig:bram_spectrum} shows the schematic view of this idea. 
 For long spectrum acquisition and debugging purposes an additional third BRAM is used. 
-This memory is always incremented and can be read and reset using ADQ14's user registers.
+This memory gets reset only on explicit user request.
 
 \begin{figure}[H]
   \centering
@@ -242,14 +250,15 @@ This memory is always incremented and can be read and reset using ADQ14's user r
   \label{fig:bram_spectrum} 
 \end{figure}
 
-The transfer and reset process requires the entire BRAM to be travelled
-twice. The ADQ14 can transfer 4 ADC samples or 64-bits of data on each FPGA clock cycle for each channel
-to the internal FIFO RAM. With 32-bit spectrum counts this makes it possible
-to transfer two bin counts on each clock cycle. To achieve that
-both port interfaces have to be used to read two bins next to each other.
-This in turn requires the BRAM to be travelled once again after transferring
+The transfer and reset process requires the entire BRAM to be travelled twice. 
+The ADQ14 can transfer 4 ADC samples or 64-bits of data
+on each FPGA clock cycle for each channel to the internal FIFO RAM.
+With 32-bit spectrum counts two bin counts can be transferred
+on each clock cycle. To achieve that
+both port interfaces have to be used to read two consecutive bins.
+This behaviour requires the BRAM to be travelled once again after transferring
 to reset all the count values to zero. This time both port interfaces
-are writing zeros to two consecutive addresses. With a 4 ns clock period
+write zeros to two consecutive addresses. With a 4 ns clock period
 the BRAM needs 33$\mu s$ to transfer its contents and another 33$\mu s$ to reset itself.
 
-
+{\Huge [OBRAZEK]}

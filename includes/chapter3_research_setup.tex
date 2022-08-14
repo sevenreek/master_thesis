@@ -3,9 +3,9 @@
 An FPGA powered data acquisition board was used as the platform 
 for the hardware implementation of digital pulse processing of PMT
 signals.
-The following subsections describe the system component in detail and
+The following subsections describe the system components in detail and
 \autoref{fig:system_overview} shows an overview of the test bench.
-A 25 kBq $^137 Cs$ radioactive sample was placed in a plastic V-vial
+A 25 kBq $^{137} Cs$ radioactive sample was placed in a plastic V-vial
 and used to test the setup.
 
 \begin{figure}[H]
@@ -19,29 +19,33 @@ and used to test the setup.
 
 Hamamatsu R11265U served as the PhotoMultiplier Tube. 
 A 15 mm GPS:Ce scintillator wrapped in aluminium foil was 
-connected coupled directly to the PMT to generate light pulses
+coupled directly with the PMT to generate light pulses
 from the radiation. The PMT with the scintillator and radioactive material
 were placed in a dark container and held together with a 
 custom-designed 3D printed casing.
 
 \subsection{Preamplifier}
 
-The design of a preamplifier capable of transforimng the PMT output signal 
-is a non-trivial task. Nearly no commercially available amplifiers
-offer parameters that satisfy all of the requirements.
+The design of a preamplifier capable of transforming the PMT signal
+to satisfy ITER's requirements is a non-trivial task.
+No commercially available amplifiers were found
+that would satisfy all of the requirements.
 Specifically for this project, a custom low-noise preamplifier 
 has been developed by Nowakowski et al. and described in another 
-paper. The PMT-Preamplifier combination generated pulses that could
-be fit to a single exponential model with a decay constant of 130 ns.
+paper. 
 \cite{low_noise_amplifier_for_pmt}
+
+
+The PMT-Preamplifier combination used in this work generates pulses that 
+fit a single exponential pulse curve with a decay constant of 130 ns.
+Bi- and tri-exponential models grant a higher accuracy, but
+are were found too problematic for real-time processing. 
 
 \subsection{Digitizer board}
 
-To acquire and digitize the signals produced by the PMT and preamplifier
-combination Teledyne SP Devices ADQ14-4C was used. The board was connected
+To acquire and digitize signals, produced by the PMT and preamplifier
+combination, Teledyne SP Devices ADQ14-4C was used. The board was connected
 through PCIe 2.0 to the host PC running custom acquisition software.
-ADQ14-4C can sample signals from up to 4 channels, each at a maximum
-frequency of 1 GHz. 
 \begin{table}[H]
 \caption{Chosen parameters of ADQ14-4C}
 \centering
@@ -61,12 +65,13 @@ frequency of 1 GHz.
 \end{table}
 
 
-The ADQ14 acquires samples with a 14-bit ADC.
+ADQ14-4C can sample signals from up to 4 channels, each at a maximum
+frequency of 1 GHz. It acquires samples with a 14-bit ADC.
 The device applies factory calibrated digital gain and shift
 to the raw measurements, 
-so in order to maintain higher precision the samples are 
+so in order to maintain a higher precision the samples are 
 extended to 16 bits representing two full bytes. 
-The additional two bits represent the fractional part potentially
+The additional two bits represent the fractional part sometimes
 produced by the fractional gain component.
 
 
@@ -87,17 +92,16 @@ peripheral devices in which a chunk of the computer's memory is
 made available to them without the need of CPU brokerage.
 
 
-Unfortunately the maximum size of DMA buffers is limited. 
-With a sampling speed of a 1 GHz and 2 byte samples up 
+Unfortunately, the maximum size of DMA buffers is limited. 
+With a sampling speed of a 1 GHz and 2 byte samples, up 
 to two gigabytes of data can be generated each second for each
-channel that is active. Even with reliance on DMA maintaining 
+channel that is active. Even with reliance on DMA, maintaining 
 a transfer speed this high is problematic. To solve this issue, 
-the ADQ14's internal DRAM acts as a buffer 
-whenever the throughput becomes too high.
+the ADQ14's internal DRAM acts as a buffer.
 Records are first stored in the internal DRAM and periodically
-transferred to the host PC's RAM whenever buffers become ready.
+transferred to the host PC's RAM whenever DMA buffers become available.
 At maximum speed a single channel can, however, still fill the entirety
-of this buffer in just a second if its contents are not processed in time.
+of this internal buffer in just a second if its contents are not flushed in time.
 
 \subsubsection{Open FPGA design} \label{ssec:adq_devkit}
 
@@ -106,7 +110,7 @@ functionality is realised with the use of an on-board FPGA,
 more specificaly a Xilinx Kintex 7 K325T. The design of the FPGA
 is partially open. Users can implement custom
 filtering or data analysis on samples in real time.
-This fact is used to implement the custom pulse processing described in this work.
+This fact is used to implement the real-time pulse processing described in this work.
 
 
 The firmware is unfortunately not entirely open-source.
@@ -117,9 +121,12 @@ gain, but before the signals are passed on to trigger control.
 This enables the implementation of custom triggering logic.
 
 
+{\Huge [OBRAZEK]}
+
+
 User Logic 2 is intended to house more complicated logic.
 This module has access to the GPIO ports and some metadata
-outputs, that can be used to better describe the transferred records.
+outputs, that can be used to describe the transferred data.
 User Logic 2 is located right before the encrypted packet generator
 that is responsible for queueing the incoming data in ADQ14's DRAM 
 for transfer to the host PC. The packet generator can be partially
@@ -131,19 +138,19 @@ can be modified.
 
 The FPGA is clocked only at 250 MHz which is exactly a quarter of 
 the ADC maximum operating frequency. This means that each channel
-of the digitizer outputs 4 samples on each clock cycle of the 
+of the digitizer produces 4 samples on each clock cycle of the 
 FPGA. This is a necessary design choice as FPGAs fare better 
 at lower clock speeds due to the need of less complex routing
 when it comes to connecting the various peripherals and CLBs.
 
 
-Such design does however complicate the implementation of 
+Such design does, however, complicate the implementation of 
 Digital Signal Processing. It is especially cumbersome for 
 functions that depend on delayed samples.
 Accumulators have the need of summing up 4 samples on
 each clock cycle instead of one. Complicated operations
 like multiplication and division require duplicated logic.
-Most functionality must be properly pipelined to avoid
+Most functionality has to be properly pipelined to avoid
 timing issues in the FPGA design.
 
 \subsection{Host computer}

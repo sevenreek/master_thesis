@@ -1,9 +1,9 @@
 \section{Conclusions}
 
-This work described the design of a
+This work described the design of 
 a high-speed digital signal processing system for nuclear pulses
 based on Field Programmable Gate Arrays.
-Considerations and test results regarding pulse processing, 
+Considerations and test results regarding real-time pulse detection, processing, 
 multi-threaded acquisition systems and data transfer were presented.
 
 
@@ -17,11 +17,11 @@ information the designs were implemented in a Field Programmable Gate Array
 and interfaced with an Analog to Digital Converter sampling with a gigasample frequency.
 
 
-While some filters perform substantially better than others
+While some digital filters perform substantially better than others
 they come with different drawbacks. Fine-tuned algorithms like the trapezoidal filter
 offer better accuracy than simple methods like the boxcar. The cost of this
 increased accuracy is usually higher system complexity and lesser universality. 
-Reduction of pile-up effects is one of the most important and hard to do features of 
+Reduction of pile-up effects is one of the most important features of 
 both detection and shaping algorithms.
 
 
@@ -29,43 +29,48 @@ Field Programmable Gate Arrays offer advantages over both
 ASICs and CPUs. In digital signal processing they offer greater parallelism
 than CPUs, and much better reconfigurability when compared to ASICs. 
 This makes them a perfect choice for highly experimental systems, like tokamaks.
-With FPGAs changes to filters and algorithms can be introduced remotly and
+With FPGAs changes to filters and algorithms can be introduced remotely and
 can involve near complete rewrites of the underlying firmware.
 On the other hand, although the devices allow for great performance gains, 
 they often require complex algorithm pipelining in implementation. 
 Additionally, the typical development time is longer than with CPUs.
 
 
-Maintaining a high data througput in digital signal processing systems
-is a complicated task, that requires high optimization at multiple system levels.
-Internal buffers of the digitzer must be regularily transferred to the host PC.
+Maintaining a high data throughput in digital signal processing systems
+is a complicated task, that requires high optimization at multiple levels.
+Internal buffers of the digitizer must be regularly transferred to the host PC.
 The host PC must be capable of processing them at speeds comparable to their appearance.
 This requires the use of multiprocessing.
-Threaded applications come with a much greater amount of risk and require a lot of optimization
-when it comes to their processes and synchronization mechanisms.
+Threaded applications come with a much greater amount of risk
+and require a lot of optimization and debugging
+when it comes to their routines and synchronization mechanisms.
 Any software, hardware or firmware bottlenecks cause buffers to fill, 
 which in turn greatly increase the likelihood of data loss.
 
 \subsection{Further problems and research}
 
 Despite a successful implementation of the system at hand, 
-many problems that a similar setup would have to face if used at ITER remain yet to be solved.
-Pile-ups still pose a threat to the currently used processing algorithms. 
+many problems that a similar setup will have to face
+if used at ITER remain yet to be solved.
+Pile-ups still pose a significant threat to the currently used processing algorithms. 
 Some prototypes for rejection
-were tested but their performance was not yet properly tested in firmware
-due to time and resource constraints.
+were developed but their performance was not yet properly tested in firmware
+due to time and resource constraints of this work.
 
 
-More importantly, the tests for the described setup involved only well-formed exponential pulses.
+The tests done on the constructed HXRM setup described here
+involved only well-formed exponential pulses.
 In ITER, the light attenuation from the fiber optic interface
 will cause the pulse shapes to divert from exponential curves.
 It is possible, that entirely different detection and shaping
 algorithms will have to be developed for the new scenario. 
 
 
-Apart from the functional issues, minor system improvements are planned
+Apart from the functional upgrades, other minor system improvements are planned
 in the near future. The critical section of the processing threads
 is still in the process of being optimized. The UI is currently 
-being revamped to provide a more intuitive experience. 
+being reworked to provide a more intuitive experience. 
 Some changes are planned to the firmware user registers, to produce
 a more universal and easier to configure interface.
+
+

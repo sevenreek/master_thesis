@@ -15,7 +15,7 @@ As described in \autoref{ssec:boxcar_filter} the zero crossing point
 of a pulse derivative pinpoints its peak.
 The simplest method of obtaining the pulse height
 is thus using a derivative and sampling the original signal
-at the zero-crossing.
+at the derivative's zero crossing.
 The method works, however it is highly susceptible to noise.
 Taking only a single sample grants a result with a precision 
 equal to the noise magnitude. It would be beneficial
@@ -37,11 +37,11 @@ When used for pulse detection, the flattop region of
 a trapezoid-shaped pulse is of little interest, and 
 can be truncated to form a triangular filter. In Pulse Height
 Analysis, the near constant signal produced
-by the trapezoid is a crucial feature. 
+by the trapezoid flattop is a crucial feature. 
 Instead of taking a single sample at the sharp peak,
 multiple samples are taken throughout the whole flattop region.
-Longer flattop region provides better noise immunity but 
-the it has an upper limit dictated by the pile-up frequency.
+Although a longer flattop region provides better noise immunity, 
+it cannot be increased too much due to pile-ups.
 
 \subsection{Integration}
 
@@ -57,21 +57,23 @@ to the amplitude $A$.
 
 The pulses can be integrated to obtain a value that is proportional
 to the pulse amplitude and RE energy. As multiple samples
-over the pulse duration are accumulated the effect of noise
-is minimized just like with trapezoidal shaping.
-Integration is a simpler procedure to implement
+over the pulse duration are accumulated, the effect of noise
+is minimized, just like with trapezoidal shaping.
+Integration is simpler to understand and implement
 than shaping and timing filters. It does not require
 the precise decay time to be known. This is beneficial 
-as a single-exponential function is only an approximation 
-of a preamplified signal.
+as a in the system used in this work the 
+single-exponential function is only an approximation 
+of the preamplified signal.
 
 
 While integration only requires the use of a single accumulator 
 to add the samples up, it results in a numerically large final sum. 
 To obtain a usable result this value must be scaled down to a usable range.
-For example a range corresponding with the ADC codes is a good choice.
+Optimally, a range corresponding to the ADC codes is chosen.
 An integral of a pulse is then mapped to value equal to its amplitude.
-This constant divider can be calculated for a fixed sampling window length
+The constant divider required for the mapping
+can be calculated for a fixed sampling window length
 or obtained experimentally. 
 
 
