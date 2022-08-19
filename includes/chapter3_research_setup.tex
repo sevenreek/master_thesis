@@ -115,13 +115,18 @@ This fact is used to implement the real-time pulse processing described in this 
 
 The firmware is unfortunately not entirely open-source.
 Third-party IP cores cannot be distributed to end customers 
-and thus user algorithms are limited to two sections called User Logics.
+and thus user algorithms are limited to two sections called User Logics
+as indicated in \autoref{fig:devkit_structure}.
 User Logic 1 is a core placed after the ADC samples are subjected to factory
 gain, but before the signals are passed on to trigger control.
 This enables the implementation of custom triggering logic.
 
-
-{\Huge [OBRAZEK]}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{media/devkit_structure.png}
+  \caption{Structure of the ADQ14 DevKit}
+  \label{fig:devkit_structure} 
+\end{figure}
 
 
 User Logic 2 is intended to house more complicated logic.

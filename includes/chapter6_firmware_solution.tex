@@ -242,6 +242,10 @@ Once a window finishes the roles are reversed.
 \autoref{fig:bram_spectrum} shows the schematic view of this idea. 
 For long spectrum acquisition and debugging purposes an additional third BRAM is used. 
 This memory gets reset only on explicit user request.
+All BRAMS work in true dual port mode.
+When building a spectrum, one of the BRAM ports is used for reading
+values and the other port writes the incremented value back as
+shown in \autoref{fig:spectrum_build_cycles}.
 
 \begin{figure}[H]
   \centering
@@ -250,6 +254,12 @@ This memory gets reset only on explicit user request.
   \label{fig:bram_spectrum} 
 \end{figure}
 
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{media/spectrum_build_cycles.png}
+  \caption{First cycles of a simplified spectrum build process}
+  \label{fig:spectrum_build_cycles} 
+\end{figure}
 The transfer and reset process requires the entire BRAM to be travelled twice. 
 The ADQ14 can transfer 4 ADC samples or 64-bits of data
 on each FPGA clock cycle for each channel to the internal FIFO RAM.
@@ -260,5 +270,20 @@ This behaviour requires the BRAM to be travelled once again after transferring
 to reset all the count values to zero. This time both port interfaces
 write zeros to two consecutive addresses. With a 4 ns clock period
 the BRAM needs 33$\mu s$ to transfer its contents and another 33$\mu s$ to reset itself.
+\autoref{fig:spectrum_transfer_cycles} shows the transferring algorithm and
+\autoref{fig:spectrum_reset_cycles} shows the reset process.
 
-{\Huge [OBRAZEK]}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{media/spectrum_transfer_cycles.png}
+  \caption{First cycles of a simplified spectrum transfer process}
+  \label{fig:spectrum_transfer_cycles} 
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{media/spectrum_reset_cycles.png}
+  \caption{First cycles of a simplified spectrum reset process}
+  \label{fig:spectrum_reset_cycles} 
+\end{figure}
