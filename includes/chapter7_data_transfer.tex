@@ -86,11 +86,12 @@ it should be transferred to the PC as soon as possible.
 Buffers no larger than a single spectrum would work best for that.
 Most likely a compromise will have to be reached experimentally.
 
-\subsection{Acquisition software}
+\subsection{Developed acquisition software}
 
 To control the acquisition process and handle the DMA data transfers,
 a custom software GUI application was developed. The application
-employs an API provided by SP Devices to interface with the digitizer board.
+uses an API provided by SP Devices to interface with the digitizer board,
+but implements a custom processing routine and algorithms.
 The Qt5 framework is used for GUI display and multiple other features.
 Most importantly, the application leverages the Qt's signal/slot system 
 to synchronize threaded events.

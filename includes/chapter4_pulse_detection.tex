@@ -117,18 +117,26 @@ into a single module a boxcar filter is obtained.
 together with its effect on an input signal of two exponential pulses.
 The boxcar filter can be considered
 to be a subtraction of two samples averaged with a window
-of length $W$ delayed from each other by $W$. 
-On \autoref{fig:boxcar_effect} $W=25$.
+of length denoted as $W$ delayed from each other by $W$. 
+On \autoref{fig:boxcar_effect} the window length $W$ is equal to 25 clock cycles.
 \begin{figure}[H]
-  \centering
-  \includegraphics[width=\linewidth]{media/boxcar_effect.png}
-  \caption{Effect of boxcar filtering on two exponential pulses}
-  \label{fig:boxcar_effect} 
+\subfloat[Input signal]{%
+  \includegraphics[width=\linewidth]{media/boxcar_effect_a.png}
+}
+
+\subfloat[Boxcar transfer function]{%
+  \includegraphics[width=\linewidth]{media/boxcar_effect_b.png}
+}
+
+\subfloat[Output signal]{%
+  \includegraphics[width=\linewidth]{media/boxcar_effect_c.png}
+}
+\caption{Effect of boxcar filtering on two exponential pulses}
+\label{fig:boxcar_effect} 
 \end{figure}
 
-
 With level triggering
-on the raw pulses the trigger position is the later in a pulse the 
+on unprocessed input pulses the trigger position is the later in a pulse the 
 shorter it is. Pulses that reach just slightly above the trigger level
 are detected near their top, while pulses significantly stronger
 than the trigger level are detected near their start, as shown in 
@@ -187,8 +195,17 @@ The staircase then becomes a train of rectangular pulses.
 \autoref{fig:mwd_staircase} shows the consecutive steps of a MWD algorithm.
 
 \begin{figure}[H]
-  \centering
-  \includegraphics[width=\linewidth]{media/mwd_staircase.png}
+\subfloat[Input train of pulses with a known decay constant]{%
+  \includegraphics[width=\linewidth]{media/mwd_staircase_a.png}
+}
+
+\subfloat[Staircase formed as a superposition of step signals from the accumulative action]{%
+  \includegraphics[width=\linewidth]{media/mwd_staircase_b.png}
+}
+
+\subfloat[Rectangular pulses formed by the delayed subtraction]{%
+  \includegraphics[width=\linewidth]{media/mwd_staircase_c.png}
+}
   \caption{MWD algorithm applied to a series of 3 pulses}
   \label{fig:mwd_staircase} 
 \end{figure}
@@ -204,8 +221,21 @@ as consecutive pulses will overlap with the decaying region
 and cause imprecise height measurement.
 
 \begin{figure}[H]
-  \centering
-  \includegraphics[width=\linewidth]{media/mwd_tau.png}
+\subfloat[Input exponential pulse with a decay constant of 50 ns]{%
+  \includegraphics[width=\linewidth]{media/mwd_tau_a.png}
+}
+
+\subfloat[Output signal with the MWD filter tuned to 50 ns]{%
+  \includegraphics[width=\linewidth]{media/mwd_tau_b.png}
+}
+
+\subfloat[Output signal with the MWD filter tuned to 100 ns]{%
+  \includegraphics[width=\linewidth]{media/mwd_tau_c.png}
+}
+
+\subfloat[Output singal with the MWD filter tuned to 25 ns]{%
+  \includegraphics[width=\linewidth]{media/mwd_tau_d.png}
+}
   \caption{The effects of decay constant mismatch between a pulse and a MWD algorithm. Decay constant of pulses is 50 ns.}
   \label{fig:mwd_tau} 
 \end{figure}
@@ -218,10 +248,14 @@ alternative methods that are better optimized for hardware implementation
 \cite{jordanov_trapezoidal}.
 MWD itself requires division which is an extremely resource consuming operation 
 in digital signal processing.
-
 \begin{figure}[H]
-  \centering
-  \includegraphics[width=\linewidth]{media/mwd_average.png}
+\subfloat[Output of a MWD filter]{%
+  \includegraphics[width=\linewidth]{media/mwd_average_a.png}
+}
+
+\subfloat[Moving average applied to the MWD filtered signal]{%
+  \includegraphics[width=\linewidth]{media/mwd_average_b.png}
+}
   \caption{Last step of synthesizing a trapezoid with the use of MWD}
   \label{fig:mwd_average} 
 \end{figure}
@@ -237,8 +271,13 @@ Thus, the triangular filter is a special case of the
 trapezoidal filter that can be used if only detection or timing is of interest.
 
 \begin{figure}[H]
-  \centering
-  \includegraphics[width=\linewidth]{media/triangular_filter.png}
+\subfloat[Output of a MWD filter]{%
+  \includegraphics[width=\linewidth]{media/triangular_filter_a.png}
+}
+
+\subfloat[Triangular shape formed after applying a moving average with the same window length as the MWD delay]{%
+  \includegraphics[width=\linewidth]{media/triangular_filter_b.png}
+}
   \caption{Triangular filter being formed as the last step of a MWD}
   \label{fig:triangular_filter} 
 \end{figure}

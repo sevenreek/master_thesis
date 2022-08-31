@@ -21,8 +21,30 @@ Hamamatsu R11265U served as the PhotoMultiplier Tube.
 A 15 mm GPS:Ce scintillator wrapped in aluminium foil was 
 coupled directly with the PMT to generate light pulses
 from the radiation. The PMT with the scintillator and radioactive material
-were placed in a dark container and held together with a 
-custom-designed 3D printed casing.
+were placed in a dark 3 mm thick dark iron tube (\autoref{fig:real_emi_tube})
+and held together with a custom-designed 3D printed casing (\autoref{fig:real_3dprint}).
+
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.75\linewidth]{media/real_emi_tube.png}
+  \caption{Exterior tube shielding the system from interference}
+  \label{fig:real_emi_tube} 
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+\subfloat[Disassembled coupler and the radioactive sample]{%
+  \includegraphics[width=0.7\linewidth]{media/real_cs137.png}
+}
+
+  \centering
+\subfloat[Assembled coupler]{%
+  \includegraphics[width=0.7\linewidth]{media/real_3dprint.png}
+}
+  \caption{Custom 3D printed PMT coupler}
+  \label{fig:real_3dprint} 
+\end{figure}
 
 \subsection{Preamplifier}
 
@@ -39,7 +61,7 @@ paper.
 The PMT-Preamplifier combination used in this work generates pulses that 
 fit a single exponential pulse curve with a decay constant of 130 ns.
 Bi- and tri-exponential models grant a higher accuracy, but
-are were found too problematic for real-time processing. 
+were found too problematic for real-time processing. 
 
 \subsection{Digitizer board}
 
@@ -162,6 +184,9 @@ timing issues in the FPGA design.
 
 The host computer was running Red Hat Enterprise Linux 7.
 \autoref{tab:pc_specs} lists the computer hardware configuration.
+The system configuration was chosen by ITER and is a part of the 
+Control, Data Access and Communication Core System (CODAC CS)
+\cite{codac}.
 \begin{table}[H]
 \caption{Hardware configuration of the host PC}
 \centering
