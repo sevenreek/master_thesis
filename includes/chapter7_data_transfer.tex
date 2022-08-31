@@ -324,6 +324,7 @@ but caused up to an 80\% drop in performance, due to the lack of buffering.
   \end{figure}
 
 
+  \newpage
 The tests (\autoref{fig:write_bench_1024} - \autoref{fig:write_bench_262144})
 indicate that the highest write speeds were obtained with
 raw \lstinline{FILE*} pointers and user-controlled buffers (fptr\_sbuf) tuned
@@ -334,4 +335,12 @@ granted a stable improvement of up to 10\% in average write speed.
 An equivalent drop was noticed when the size of the
 chunks exceeded the size of buffers. For the time being the application 
 was modified to use \lstinline{FILE*} based calls.
+
+
+In the tests, some configurations seem to offer a write speed 
+of up to 4.5 GB/s. In reality, this value was found to be unsustainable
+in longer tests. The benchmarks shown in the figures wrote 100 chunks of a given size.
+With long-running tests (file sizes exceeding 20 GBs) 
+the average write speed, typically oscillated between 1500 MB/s and 2500 MB/s
+even with the best settings.
 

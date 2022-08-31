@@ -53,6 +53,8 @@
 \input{./includes/chapter8_conclusions.tex}
 \newpage
 %	BIBLIOGRAPHY
-\printbibliography
-
+\newrefcontext[labelprefix=A]
+\printbibliography[keyword=self,title={Author's Articles},resetnumbers=true]
+\newrefcontext[labelprefix={}]
+\printbibliography[notkeyword=self,title={General Bibliography},resetnumbers=true]
 \end{document}

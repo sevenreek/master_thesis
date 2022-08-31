@@ -2,12 +2,22 @@
 In order to process pulses they must be first detected. 
 The window of interest containing a pulse to be analysed
 must be properly distinguished from the surrounding noise.
-Although detection is a must, it also brings the added benefit
+In real hardware, noise is produced by the PMT detector, 
+the amplifier, the ADCs, wiring and outside interference.
+The high temperatures and current produced by a tokamak
+will produce a very noisy signal. At current stages of the project,
+the system is not affected by the fusion process, so
+additional noise is introduced artificially.
+
+
+Pulse detection is a must, as it is a requirement for 
+other analysis to take place, however,
+it also brings the added benefit
 of data rate reduction. If pulses can be accurately 
 marked within a signal it is possible to transfer only
 those samples that compose the events to the host PC. 
-The remaining parts of signal that contain only the thermal noise
-can be omitted.
+The remaining parts of a signal that contain only the
+baseline superposed with the noise can be omitted.
 
 
 The ADQ14 is capable of sampling signals with a frequency of
@@ -393,17 +403,14 @@ doing so, than others.
 
   \begin{figure}[H]
     \centering
-    \begin{minipage}{.45\textwidth}
       \centering
-      \includegraphics[width=\linewidth]{media/detection_sim_pulse_rate.png}
+      \includegraphics[width=0.7\linewidth]{media/detection_sim_pulse_rate.png}
       \caption{Detection algorithms compared under varying pulse frequency}
       \label{fig:detection_sim_pulse_rate}
-    \end{minipage}%
-    \hfill
-    \begin{minipage}{.45\textwidth}
+  \end{figure}
+  \begin{figure}[H]
       \centering
-      \includegraphics[width=\linewidth]{media/detection_sim_noise.png}
+      \includegraphics[width=0.7\linewidth]{media/detection_sim_noise.png}
       \caption{Detection algorithms compared under varying noise magnitude}
       \label{fig:detection_sim_noise}
-    \end{minipage}
   \end{figure}
