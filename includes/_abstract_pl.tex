@@ -1,59 +1,34 @@
-W ciągu ostatnich dziesięcioleci większość analogowych komponentów
-w systemach do akwizycji sygnałów została zastąpiona przez 
-elementy cyfrowe. Cyfrowe przetwarzanie sygnałów oferuje
-wiele zalet w stosunku do analogowych metod.
-Przetworniki cyfrowe są mniej podatne na temperaturę i 
-zakłócenia elektromagnetyczne.
-Niestety, przed pojawieniem się dostatecznie szybkich przetworników analogowo - cyfrowych
-na rynku konsumenckim, cyfrowe przetwarzanie sygnałów nie mogło być 
-efektywnie wykorzystywane w eksperymentach wymagających precyzji czasowe
-lepszej niż nanosekunda. 
-Obecnie urządzenia tego typu są dostępne, jednak ich głównym problemem  
-jest bardzo wysoka przepustowość danych. Najszybsze przetworniki
-są w stanie generować gigabajty danych na sekundę uniemożliwiając
-tym samym wykorzystanie procesorów komputerowych do przetwarzania sygnałów
-w czasie rzeczywistym.
+W ciągu ostatnich dziesięcioleci ultraszybkie przetworniki analogowo-cyfrowe
+oraz systemy FPGA umożliwiły wykorzystanie cyfrowego przetwarzania sygnałów 
+w praktycznie każdym zastosowaniu wymagającym nawet nanosekundowej precyzji.
+Głównym problemem cyfrowego przetwarzania przy częstotliwości próbkowania w 
+zakresie gigahertzów jest bardzo wysoka przepustowość danych. Najszybsze przetworniki
+są w stanie generować gigabajty danych na sekundę. Analiza sygnałów tego typu 
+w czasie rzeczywistym wymaga szczegółowej optymalizacji wszystkich części 
+systemu do akwizycji.
 
 
-W eksperymentach z dziedziny fuzji jądrowej powstają sygnały
-o długości od kilkudziesięciu do kilkuset nanosekund, w związku
-z czym konieczne jest zastosowanie w nich szybkich przetworników.
-Łatwość rekonfiguracji urządzeń cyfrowych sprawia,
-że są one preferowanym rozwiązaniem w wysoce eksperymentalnych
-zastosowaniach. Aby móc polegać na cyfrowym przetwarzaniu
-w fuzji, problemy wynikające z wysokiej przepustowości 
-urządzeń cyfrowych muszą zostać rozwiązane, zanim aktualnie konstruowane
-reaktory wejdą w fazę testów z plazmą.
-
-
-Jednym z systemów diagnostycznych powszechnie wykorszystywanym w 
-tokamakach jest Monitor Twardego Promieniowania X (Hard X-Ray Monitor).
-System ten, mierzy spektrum promieniowania produkowane przez tzw. Runaway
-Electrons. Wczesne wykrywanie i redukcja tego zjawiska są kluczowe
-dla bezpieczengo działania tokamaka.
-Monitory Promieniowania X wykorzystują fotopowielacze (PhotoMultiplier Tubes)
-do mierzenia wiązek promieniowania X, powstających w wyniku hamowania
-elektronów na wewnętrznych ścianach reaktora.
-
-
+W eksperymentach z dziedziny fuzji termojądrowej jednym z systemów diagnostycznych
+wymagających przetwarzania z tak wysoką precyzją jest Monitor Twardego Promieniowania X.
 W tej pracy opisana została część Monitora Twardego Promieniowania X 
 zaprojektowanego dla projektu ITER, z uwagą skupioną, na cyfrowym przetwarzaniu
 impulsów z fotopowielaczy, w czasie rzeczywistym, z wykorzystaniem bezpośrednio
 programowalnych macierzy bramek (FPGA). Różne algorytmy do wykrywania 
 impulsów zostały opisane, porównane i przetestowane w symulacjach komputerowych.
 Algorytmy gwarantujące najlepszy kompromis między łatwością implementacji 
-a celnością zostały zaimplementowane w macierzy bramek i przetestowane 
+a skutecznością detekcji zostały zaimplementowane w macierzy bramek i przetestowane 
 z radioaktywną próbką Cezu. Taki sam proces zastosowano w przypadku
 algorytmów do pomiaru wysokości impulsów. Połączone algorytmy wykorzystano
-do spektroskopii czasu rzeczywistego.
+do opracowania systemu do spektroskopii czasu rzeczywistego.
 
 
 Zaprojektowany w tej pracy system diagnostyczny jest w stanie kategoryzować 
-impulsy z fotopowielaczy, nawet przy maksymalnej prędkości próbkowania 
-wykorzystanej płytki do akwizycji, 1 GHz. W procesie,
-dzięki wykorzystanym algorytmom przechowywania i
+impulsy z fotopowielaczy, nawet przy maksymalnej częstotliwości próbkowania 
+oferowanej przez wykorzystaną płytkę do akwizycji, 1 GHz. W zaprojektowanym 
+procesie spektroskopii, dzięki wykorzystanym algorytmom przechowywania i
 przesyłania spektrum promieniowania, nie występuje czas martwy.
-Dodatkowo, przedstawione zostały wymagania względem płytek do akwizycji oraz wyzwania
+W pracy szczegółowo opisano algorytm pozwalający na osiągniecie tych cech.
+Dodatkowo, przedstawione są wymagania względem płytek do akwizycji oraz wyzwania
 związane z utrzymywaniem wysokiej przepustowości danych w różnych elementach systemu
-do akwizycji danych cyfrowych.
+do akwizycji danych cyfrowych. 
 

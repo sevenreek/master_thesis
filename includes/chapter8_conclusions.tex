@@ -1,24 +1,26 @@
 \section{Conclusions}
 
 This work described the design of 
-a high-speed digital signal processing system for nuclear pulses
+a high-speed digital signal processing system for nuclear fusion pulses
 based on Field Programmable Gate Arrays.
 Considerations and test results regarding real-time pulse detection, processing, 
-multi-threaded acquisition systems and data transfer were presented.
+multi-threaded acquisition systems and data transfer and archiving were presented.
 
 
-A group of detection and shaping filters 
-most commonly employed in Hard X-Ray Spectroscopy was compared.
+The state-of-the-art analysis conducted by the author allowed for the identification
+and selection of pulse processing algorithms most suitable for real time digital spectroscopy.
 The filters were first compared in research literature
-and then implemented in both software and hardware to verify the results. 
+and then implemented in simulations created in Matlab and Python.
 Simulations were ran with different 
 configurations to find the best algorithm to use in plasma diagnostics. With this
 information the designs were implemented in a Field Programmable Gate Array
 and interfaced with an Analog to Digital Converter sampling with a gigasample frequency.
+The FPGA tests were run with a real radioactive $^{137} Cs$ sample.
 
 
 While some digital filters perform substantially better than others
-they come with different drawbacks. Fine-tuned algorithms like the trapezoidal filter
+they were found to come with different drawbacks. 
+Fine-tuned algorithms like the trapezoidal filter
 offer better accuracy than simple methods like the boxcar. The cost of this
 increased accuracy is usually higher system complexity and lesser universality. 
 Reduction of pile-up effects is one of the most important features of 
@@ -26,7 +28,7 @@ both detection and shaping algorithms.
 
 
 Field Programmable Gate Arrays offer advantages over both 
-ASICs and CPUs. In digital signal processing they offer greater parallelism
+ASICs and CPUs. In digital signal processing they offer greater parallelism and lower latency
 than CPUs, and much better reconfigurability when compared to ASICs. 
 This makes them a perfect choice for highly experimental systems, like tokamaks.
 With FPGAs changes to filters and algorithms can be introduced remotely and
@@ -63,7 +65,8 @@ involved only well-formed exponential pulses.
 In ITER, the light attenuation from the fiber optic interface
 will cause the pulse shapes to divert from exponential curves.
 It is possible, that entirely different detection and shaping
-algorithms will have to be developed for the new scenario. 
+algorithms will have to be developed to account for the high 
+attenuation in the optical path between the scintillator ant the PMT. 
 
 
 Apart from the functional upgrades, other minor system improvements are planned
@@ -72,5 +75,7 @@ is still in the process of being optimized. The UI is currently
 being reworked to provide a more intuitive experience. 
 Some changes are planned to the firmware user registers, to produce
 a more universal and easier to configure interface.
+The system must also by synchronized with ITER's timestamping 
+and triggering system relying on the IEEE 1588 protocol.
 
 
